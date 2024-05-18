@@ -18,6 +18,15 @@ export class OnvifServiceEvents extends OnvifServiceBase {
         const soap = this.createRequestSoap(soapBody);
         return requestCommand(this.oxaddr, 'GetEventProperties', soap);
     }
+
+    subscribe(url: string) {
+        const soapBody = `<Subscribe xmlns="http://docs.oasis-open.org/wsn/b-2">
+			<ConsumerReference><a:Address>${url}</a:Address></ConsumerReference>
+			<InitialTerminationTime>PT2M</InitialTerminationTime>'
+			</Subscribe>`;
+        const soap = this.createRequestSoap(soapBody);
+        return requestCommand(this.oxaddr, 'Subscribe', soap);
+    }
 }
 
 export interface OnvifServiceEventsConfigs extends OnvifServiceBaseConfigs {
