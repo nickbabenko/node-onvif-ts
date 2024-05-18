@@ -21,7 +21,7 @@ export class OnvifServiceEvents extends OnvifServiceBase {
 
     subscribe(url: string) {
         const soapBody = '<Subscribe xmlns="http://docs.oasis-open.org/wsn/b-2">' +
-			'<ConsumerReference><a:Address>${url}</a:Address></ConsumerReference>' +
+			'<ConsumerReference><a:Address>' + url + '</a:Address></ConsumerReference>' +
 			'<InitialTerminationTime>PT2M</InitialTerminationTime>' +
 			'</Subscribe>';
         const soap = this.createRequestSoap(soapBody);
