@@ -28,6 +28,15 @@ export class OnvifServiceEvents extends OnvifServiceBase {
 	    console.log(soap);
         return requestCommand(this.oxaddr, 'Subscribe', soap);
     }
+
+    createPullPointSubscription() {
+	const soapBody = '<CreatePullPointSubscription xmlns="http://www.onvif.org/ver10/events/wsdl">' +
+			'<InitialTerminationTime>PT2M</InitialTerminationTime>' +
+			'</CreatePullPointSubscription>'
+	    const soap = this.createRequestSoap(soapBody);
+	    console.log(soap);
+        return requestCommand(this.oxaddr, 'CreatePullPointSubscription', soap);
+    }
 }
 
 export interface OnvifServiceEventsConfigs extends OnvifServiceBaseConfigs {
