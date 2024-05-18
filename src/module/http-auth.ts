@@ -29,7 +29,7 @@ export class OnvifHttpAuth {
 
         return http.request(options, (res) => {
             if(res.statusCode === 401 && res.headers['www-authenticate']) {
-                if(res.headers['www-authenticate'].match(/Digest realm/)) {
+                if(res.headers['www-authenticate'].match(/^Digest/)) {
                     this.handleHttpDigest(http, res, callback);
                 } else {
                     callback(res);
@@ -41,7 +41,7 @@ export class OnvifHttpAuth {
     }
 
     private handleHttpDigest(http: typeof mHttp | typeof mHttps, res: mHttp.IncomingMessage, callback: (req: mHttp.IncomingMessage) => void) {
-        const o = this.parseAuthHeader(res.headers['www-authenticate']);
+        const o = this.parseAuthHeader(res.headers['www-authenticate'].replace('Digest ', ''));
         if(!this.options.headers) {
             this.options.headers = {};
         }
@@ -53,7 +53,7 @@ export class OnvifHttpAuth {
         const o = {} as AuthHeader;
         h.split(/,\s*/).forEach((s) => {
             const pair = s.split('=');
-            const k = pair[0] as 'algorithm' | 'nonce' | 'Digest realm' | 'qop';
+            const k = pair[0] as 'algorithm' | 'nonce' | 'realm' | 'qop';
             let v = pair.slice(1).join('=');
             if(!k || !v) {
                 return;
@@ -69,16 +69,16 @@ export class OnvifHttpAuth {
     }
 
     private createAuthReqHeaderValue(o: AuthHeader) {
-        const ha1 = this.createHash(o.algorithm, [this.user, o['Digest realm'], this.pass].join(':'));
+        const ha1 = this.createHash(o.algorithm, [this.user, o['realm'], this.pass].join(':'));
         const ha2 = this.createHash(o.algorithm, [this.method, this.path].join(':'));
         const cnonce = this.createCnonce(8);
         this.nonceCount ++;
         const nc = ('0000000' + this.nonceCount.toString(16)).slice(-8);
         const response = this.createHash(o.algorithm, [ha1, o.nonce, nc, cnonce, o.qop, ha2].join(':'));
 
-        return 'Digest' + [
+        return 'Digest ' + [
             'username="' + this.user + '"',
-            'realm="' + o['Digest realm'] + '"',
+            'realm="' + o['realm'] + '"',
             'nonce="' + o.nonce + '"',
             'uri="' + this.path + '"',
             'algorithm=' + o.algorithm,
