@@ -107,6 +107,6 @@ export class OnvifHttpAuth {
 interface AuthHeader {
     algorithm?: string;
     nonce?: string;
-    'Digest realm'?: string;
+    realm?: string;
     qop: string;
 }
