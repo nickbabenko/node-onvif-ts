@@ -19,7 +19,7 @@ export function parse(soap: string) {
         explicitArray: false,
         ignoreAttrs: false,
         tagNameProcessors: [
-            (name) => {
+            (name: string) => {
                 const m = name.match(/^([^\:]+)\:([^\:]+)$/);
                 return m ? m[2] : name;
             }
@@ -123,7 +123,7 @@ function request(oxaddr: URL, soap: string): Promise<string> {
                         const code = res.statusCode;
                         const text = res.statusMessage;
                         if (xml) {
-                            parse(xml).then((parsed) => {
+                            parse(xml).then((parsed: any) => {
                                 let msg = parsed.Body?.Fault?.Reason?.Text;
                                 if (typeof(msg) === 'object') {
                                     msg = msg._;
@@ -133,7 +133,7 @@ function request(oxaddr: URL, soap: string): Promise<string> {
                                 } else {
                                     reject(err);
                                 }
-                            }).catch((error) => {
+                            }).catch((error: any) => {
                                 reject(error);
                             });
                         } else {
