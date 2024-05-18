@@ -49,7 +49,7 @@ export function startProbe(): Promise<Probe[]> {
         });
 
         udp.on('message', (buf) => {
-            parse(buf.toString()).then((res) => {
+            parse(buf.toString()).then((res: any) => {
                 let urn: string;
                 let xaddrs: string[] = [];
                 let scopes: string[] = [];
@@ -102,7 +102,7 @@ export function startProbe(): Promise<Probe[]> {
 						devices[urn] = probe;
 					}
 				}
-			}).catch((error) => {
+			}).catch((error: any) => {
                 // Do nothing.
                 console.log(error);
 			});
