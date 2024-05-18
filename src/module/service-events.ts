@@ -25,6 +25,7 @@ export class OnvifServiceEvents extends OnvifServiceBase {
 			'<InitialTerminationTime>PT2M</InitialTerminationTime>' +
 			'</Subscribe>';
         const soap = this.createRequestSoap(soapBody);
+	    console.log(soap);
         return requestCommand(this.oxaddr, 'Subscribe', soap);
     }
 }
