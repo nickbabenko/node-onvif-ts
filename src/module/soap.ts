@@ -27,10 +27,14 @@ export function parse(soap: string) {
     });
 }
 
-export function requestCommand(oxaddr: URL, methodName: string, soap: string) {
+interface RequestOptions {
+    timeoutMs?: number
+}
+
+export function requestCommand(oxaddr: URL, methodName: string, soap: string, requestOptions?: RequestOptions) {
     return new Promise<Result>((resolve, reject) => {
         let xml = '';
-        request(oxaddr, soap).then((res) => {
+        request(oxaddr, soap, requestOptions).then((res) => {
             xml = res;
             return parse(res);
         }).then((result) => {
@@ -83,10 +87,6 @@ export function createRequestSoap(params: SoapParams) {
 
     soap = soap.replace(/\>\s+\</g, '><');
     return soap;
-}
-
-interface RequestOptions {
-    timeoutMs?: number
 }
 
 function request(oxaddr: URL, soap: string, options?: RequestOptions): Promise<string> {
