@@ -85,7 +85,11 @@ export function createRequestSoap(params: SoapParams) {
     return soap;
 }
 
-function request(oxaddr: URL, soap: string): Promise<string> {
+interface RequestOptions {
+    timeoutMs?: number
+}
+
+function request(oxaddr: URL, soap: string, options?: RequestOptions): Promise<string> {
     return new Promise((resolve, reject) => {
         const opts = {
             protocol: oxaddr.protocol,
@@ -143,7 +147,7 @@ function request(oxaddr: URL, soap: string): Promise<string> {
                     res = null;
                 });
             });
-            req.setTimeout(HTTP_TIMEOUT);
+            req.setTimeout(options?.timeoutMs ?? HTTP_TIMEOUT);
 
             req.on('timeout', () => {
                 req.destroy();
