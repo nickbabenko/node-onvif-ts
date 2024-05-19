@@ -56,6 +56,19 @@ export class OnvifServiceEvents extends OnvifServiceBase {
 		timeoutMs: 80000, // 80 seconds to wait for messages	
 	});
     }
+
+    renew(address: URL) {
+	const soapBody = '<Renew xmlns="http://www.onvif.org/ver10/events/wsdl">' +
+					'<Timeout>PT2M</Timeout>'
+				'</Renew>'
+	const soap = this.createRequestSoap(soapBody, false, [
+		{
+			name: 'To',
+			value: address.href,
+		}
+	]);
+        return requestCommand(this.oxaddr, 'Renew', soap);
+    }
 }
 
 export interface OnvifServiceEventsConfigs extends OnvifServiceBaseConfigs {
