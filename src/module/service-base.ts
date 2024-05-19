@@ -20,7 +20,7 @@ export class OnvifServiceBase {
         this.timeDiff = 0;
     }
 
-    protected createRequestSoap(body: string, withoutUser = false, header = []) {
+    protected createRequestSoap(body: string, withoutUser = false, header: { name: string, value: string }[] = []) {
         return withoutUser
           ? createRequestSoap({
               header,
