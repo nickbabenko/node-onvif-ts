@@ -48,7 +48,7 @@ export class OnvifServiceEvents extends OnvifServiceBase {
 			value: address.href,
 		},
 	]);
-        return requestCommand(address, 'PullMessages', soap, {
+        return requestCommand(this.oxaddr, 'PullMessages', soap, {
 		timeoutMs: 80000, // 80 seconds to wait for messages	
 	});
     }
