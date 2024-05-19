@@ -45,7 +45,7 @@ export class OnvifServiceEvents extends OnvifServiceBase {
 	const soap = this.createRequestSoap(soapBody, false, [
 		{
 			name: 'To',
-			value: address.toString(),
+			value: address.href,
 		},
 	]);
         return requestCommand(address, 'PullMessages', soap, {
