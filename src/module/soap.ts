@@ -84,7 +84,7 @@ export function createRequestSoap(params: SoapParams) {
     soap += '<s:Header>';
     if (params.header) {
         soap += params.header.map((header) => {
-            return `<a:${header.name}>${header.value}</a:${header.name}>`
+            return `<${header.name}>${header.value}</${header.name}>`
         }).join('\n')
     }
     if(params.user) {
