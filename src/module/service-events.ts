@@ -43,7 +43,9 @@ export class OnvifServiceEvents extends OnvifServiceBase {
 					'<MessageLimit>10</MessageLimit>' +
 				'</PullMessages>'
 	const soap = this.createRequestSoap(soapBody);
-        return requestCommand(address, 'PullMessages', soap);
+        return requestCommand(address, 'PullMessages', soap, {
+		timeoutMs: 80000, // 80 seconds to wait for messages	
+	});
     }
 }
 
