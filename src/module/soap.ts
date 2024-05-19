@@ -95,6 +95,7 @@ export function createRequestSoap(params: SoapParams) {
     soap += '</s:Envelope>';
 
     soap = soap.replace(/\>\s+\</g, '><');
+    console.log(soap);
     return soap;
 }
 
