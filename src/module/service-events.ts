@@ -47,6 +47,10 @@ export class OnvifServiceEvents extends OnvifServiceBase {
 			name: 'To',
 			value: address.href,
 		},
+		{
+			name: 'Action',
+			value: 'http://www.onvif.org/ver10/events/wsdl/PullPointSubscription/PullMessagesRequest',
+		},
 	]);
         return requestCommand(this.oxaddr, 'PullMessages', soap, {
 		timeoutMs: 80000, // 80 seconds to wait for messages	
