@@ -63,6 +63,10 @@ interface SoapParams {
     diff?: number;
     user?: string;
     pass?: string;
+    header?: {
+        name: string
+        value: string
+    }[]
     body: string;
 }
 
@@ -78,6 +82,11 @@ export function createRequestSoap(params: SoapParams) {
     }
     soap += '>';
     soap += '<s:Header>';
+    if (params.header) {
+        soap += params.header.map((header) => {
+            return `<s:${header.name}>${header.value}</s:${header.name}>`
+        }).join('\n')
+    }
     if(params.user) {
         soap += createSoapUserToken(params.diff, params.user, params.pass);
     }
