@@ -37,7 +37,7 @@ export class OnvifServiceEvents extends OnvifServiceBase {
         return requestCommand(this.oxaddr, 'CreatePullPointSubscription', soap);
     }
 
-    pullMessages(address: string, subscriptionId) {
+    pullMessages(address: string) {
 	const soapBody = '<PullMessages xmlns="http://www.onvif.org/ver10/events/wsdl">' +
 					'<Timeout>PT1M</Timeout>'
 					'<MessageLimit>10</MessageLimit>' +
